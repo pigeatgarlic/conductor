@@ -7,7 +7,7 @@
     "sourceMap": true
   },
   "include": [
-    "gRPC/**.ts",
+    "**/**.ts",
     "index.ts"
   ],
   "exclude": [
