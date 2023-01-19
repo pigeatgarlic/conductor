@@ -13,7 +13,7 @@
   "scripts": {
     "run": "node dist/index.js",
     "build": "npm run generate-types & tsc",
-    "generate-types": "proto-loader-gen-types --keepCase --longs String --enums String --defaults --oneofs --includeComments --includeDirs proto/ --include-dirs test/fixtures/ -O src/generated/ --grpcLib @grpc/grpc-js/build/src/index.js define.proto"
+    "generate-types": "proto-loader-gen-types --keepCase --longs String --enums String --defaults --oneofs --includeComments --includeDirs proto/ -O gRPC/generated/ --grpcLib @grpc/grpc-js/build/src/index.js define.proto"
   },
   "repository": {
     "type": "git",

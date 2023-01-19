@@ -7,7 +7,7 @@
     "sourceMap": true
   },
   "include": [
-    "src/**.ts"
+    "gRPC/**.ts"
   ],
   "exclude": [
     "./dist/**"
