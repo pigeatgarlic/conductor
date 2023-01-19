@@ -1,0 +1,28 @@
+{
+  "name": "conductor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.4",
+    "@grpc/proto-loader": "^0.7.4",
+    "@types/node": "^18.11.18",
+    "google-protobuf": "^3.21.2",
+    "typescript": "^4.9.4"
+  },
+  "scripts": {
+    "run": "node dist/index.js",
+    "build": "npm run generate-types & tsc",
+    "generate-types": "proto-loader-gen-types --keepCase --longs String --enums String --defaults --oneofs --includeComments --includeDirs proto/ --include-dirs test/fixtures/ -O src/generated/ --grpcLib @grpc/grpc-js/build/src/index.js define.proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pigeatgarlic/conductor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pigeatgarlic/conductor/issues"
+  },
+  "homepage": "https://github.com/pigeatgarlic/conductor#readme"
+}
