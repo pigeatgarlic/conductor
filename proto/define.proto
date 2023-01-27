@@ -2,21 +2,8 @@ syntax = "proto3";
 
 package protobuf;
 
-option go_package = "./packet";
-
 service StreamService {
   rpc StreamRequest(stream WorkerStatus) returns (stream WorkerCommand);
-
-  rpc Auth(AuthRequest) returns (AuthResult);
-}
-
-message AuthRequest { 
-
-}
-
-message AuthResult { 
-	string Af = 1;
-	string dsaf = 2;
 }
 
 message WorkerStatus { 
@@ -34,8 +21,12 @@ message WorkerStatus {
 }
 
 
+enum Command{
+	SDP = 1;
+	ICE = 2;
+};
 
 message WorkerCommand { 
-  string type = 2;
-  map<string,string> data = 1;
+	Command command = 1;
+	map<string,string> data = 2;
 }
