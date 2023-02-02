@@ -2,31 +2,31 @@ syntax = "proto3";
 
 package protobuf;
 
-service StreamService {
-  rpc StreamRequest(stream WorkerStatus) returns (stream WorkerCommand);
+service Signaling {
+  rpc handshake(stream SignalingMessage) returns (stream SignalingMessage);
 }
 
-message WorkerStatus { 
-	string Hostname = 1; 
-	string CPU      = 2;
-	string RAM      = 3;
-	string Bios     = 4;
-
-	repeated string Gpu     =5;
-	repeated string Disk    =6;
-	repeated string Network =7;
-
-	string IP        =8;
-	string PrivateIP =9;
-}
-
-
-enum Command{
+enum SignalingType{
 	SDP = 1;
 	ICE = 2;
+
+	START = 3;
+	END = 6;
 };
 
-message WorkerCommand { 
-	Command command = 1;
-	map<string,string> data = 2;
+message SDP { 
+	string Type = 1;
+	string SDP  = 2;
+}
+
+message ICE { 
+	string Candidate = 1;
+	string SDPMid = 2;
+	int64    SDPMLineIndex = 3;
+}
+
+message SignalingMessage { 
+	SignalingType type = 1;
+	SDP sdp = 2;
+	ICE ice = 3;
 }
