@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build": "npm run generate-types & tsc",
+    "build": "npm run generate-types && cd node_modules/edge-turn/ && go build  -o ../../ . && cd .. & tsc",
     "generate-types": "proto-loader-gen-types --keepCase --longs String --enums String --defaults --oneofs --includeComments --includeDirs proto/ -O gRPC/generated/ --grpcLib @grpc/grpc-js/build/src/index.js define.proto"
   },
   "repository": {
