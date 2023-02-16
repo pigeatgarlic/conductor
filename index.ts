@@ -4,17 +4,37 @@ import * as dotenv from 'dotenv'
 import { TurnServer } from "edge-turn/dist/index"
 dotenv.config()
 
+const ANON_KEY = process.env.SUPABASE_ANON_KEY
+const PORT_TURN = 3478
+const PORT_GRPC = 9090
 
-const turn = new TurnServer("huyhoang","huyhoang",3478,(log) => {
-    console.log(`message from turn server : ${log}`)
-});
-turn.Start()
+const startturn = async () => {
+    const ip = await (await fetch('http://api.ipify.org/')).text();
+    const resp = await fetch('http://localhost:54321/functions/v1/',{
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${ANON_KEY}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            public_ip:    ip,
+            turn_port:   PORT_TURN
+        })       
+    })
 
 
+    const {username,password} = await resp.json()
+    const turn = new TurnServer(username,password,PORT_TURN,(log) => {
+        console.log(`message from turn server : ${log}`)
+    });
+    await turn.Start()
+}
 
 
-const host = '0.0.0.0:9090';
+const host = `0.0.0.0:${PORT_GRPC}`;
 const server = getServer();
+
+startturn()
 server.bindAsync(
     host,
     grpc.ServerCredentials.createInsecure(),
