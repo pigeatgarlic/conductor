@@ -6,17 +6,21 @@ dotenv.config()
 
 const CLIENT_ID     = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
+const prod = true
 
+const LOCAL_ANON_KEY = process.env.SUPABASE_LOCAL_ANON_KEY
 const ANON_KEY = process.env.SUPABASE_ANON_KEY
+
+const URL      = process.env.SUPABSE_REGISTER_URL
 const PORT_TURN = 3478
 const PORT_GRPC = 9090
 
 const startturn = async () => {
     const ip = await (await fetch('http://api.ipify.org/')).text();
-    const resp = await fetch('http://localhost:54321/functions/v1/',{
+    const resp = await fetch(prod ? URL : 'http://localhost:54321/functions/v1/',{
         method: "POST",
         headers: {
-            'Authorization': `Bearer ${ANON_KEY}`,
+            'Authorization': `Bearer ${prod ? ANON_KEY : LOCAL_ANON_KEY}`,
             'Content-Type': 'application/json',
             'client_id' : CLIENT_ID,
             'client_secret' : CLIENT_SECRET
@@ -26,6 +30,11 @@ const startturn = async () => {
             turn_port:   PORT_TURN
         })       
     })
+
+    if(resp.status != 200) {
+        console.log(`error ${await resp.text()}`)
+        return;
+    }
 
 
     const {username,password} = await resp.json()
