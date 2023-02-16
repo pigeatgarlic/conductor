@@ -4,6 +4,9 @@ import * as dotenv from 'dotenv'
 import { TurnServer } from "edge-turn/dist/index"
 dotenv.config()
 
+const CLIENT_ID     = process.env.CLIENT_ID
+const CLIENT_SECRET = process.env.CLIENT_SECRET
+
 const ANON_KEY = process.env.SUPABASE_ANON_KEY
 const PORT_TURN = 3478
 const PORT_GRPC = 9090
@@ -15,6 +18,8 @@ const startturn = async () => {
         headers: {
             'Authorization': `Bearer ${ANON_KEY}`,
             'Content-Type': 'application/json',
+            'client_id' : CLIENT_ID,
+            'client_secret' : CLIENT_SECRET
         },
         body: JSON.stringify({
             public_ip:    ip,
